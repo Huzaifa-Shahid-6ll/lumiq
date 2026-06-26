@@ -32,7 +32,7 @@ The plan is production-minded, but the first execution target is the hackathon g
 Core implementation rule:
 
 ```txt
-Build the smallest real end-to-end vertical slice first: seeded setup → prerecorded-live session → candidate detection → Mastra recommendation → policy capture → B2 raw asset → Genblaze generation → QA → review approval → publish package/share page → provenance graph.
+Build the product UI screens first using Lumiq design tokens, route-level screens, contract-shaped fixtures, and clear empty/loading/error/blocked states. Then wire those screens to the smallest real end-to-end vertical slice: seeded setup → prerecorded-live session → candidate detection → Mastra recommendation → policy capture → B2 raw asset → Genblaze generation → QA → review approval → publish package/share page → provenance graph.
 ```
 
 ---
@@ -43,15 +43,40 @@ Build the smallest real end-to-end vertical slice first: seeded setup → prerec
 
 No implementation task should invent behavior that is not specified. If a behavior is missing, update the relevant spec or mark the task exploratory.
 
-### 2.2 Vertical slice before breadth
+### 2.2 Frontend UI first, then backend vertical slice
 
-Do not build every screen, provider, adapter, or admin flow before the golden path works.
+Build the app experience before backend breadth.
+
+UI-first means the product shape is visible early:
+
+```txt
+workspace shell
+setup/onboarding
+catalog and campaigns
+Live Studio
+signal timeline and candidate cards
+Moment Vault
+Review Queue
+raw/enhanced compare
+provenance graph
+publish package and share page
+admin/recovery shell
+settings/budgets/providers shell
+```
+
+The first UI pass may use mock data, seeded fixtures, and contract-shaped JSON. It must still use real domain language, Lumiq design tokens, realistic states, and visible provenance patterns.
+
+UI-first does **not** mean bypassing backend truth. Product claims, capture authorization, generation, B2 writes, approval, publish, deletion, and admin recovery must still be enforced by the backend once wired.
+
+Marketing/public screens may be built right after the app UI, but they are explicitly deferable if the product workflow needs attention.
 
 Priority order:
 
 ```txt
-P0 golden path
-P0 safety/provenance gates
+P0 app UI screen inventory
+P0 UI fixture/demo state coverage
+P0 safety/provenance visual patterns
+P0 backend vertical slice wiring
 P0 demo reliability
 P1 production beta hardening
 P2/P3 integrations and enterprise scale
@@ -100,28 +125,34 @@ phases:
   phase_0_spec_and_repo_alignment:
     priority: P0
     goal: make_repo_match_spec_kit_and_prepare_coding_agents
-  phase_1_platform_foundation:
+  phase_1_frontend_app_ui_first:
+    priority: P0
+    goal: build_all_core_app_screens_with_tokens_routes_fixtures_and_states
+  phase_2_marketing_public_screens:
+    priority: P0_optional
+    goal: build_marketing_demo_and_public_surfaces_without_blocking_product_flow
+  phase_3_platform_foundation:
     priority: P0
     goal: auth_db_events_storage_service_skeletons
-  phase_2_contracts_and_data_model:
+  phase_4_contracts_and_data_model:
     priority: P0
     goal: migrations_schemas_api_events_and_validation
-  phase_3_golden_path_backend:
+  phase_5_golden_path_backend_ai_media:
     priority: P0
     goal: session_detection_capture_generation_qa_publish_provenance
-  phase_4_golden_path_frontend:
+  phase_6_wire_frontend_to_real_backend:
     priority: P0
-    goal: setup_live_studio_review_vault_provenance_share
-  phase_5_testing_observability_and_recovery:
+    goal: replace_fixtures_with_real_api_event_asset_and_signed_url_flows
+  phase_7_testing_observability_and_recovery:
     priority: P0_P1
     goal: protect_demo_path_and_recover_failures
-  phase_6_deployment_and_submission:
+  phase_8_deployment_and_submission:
     priority: P0
     goal: deploy_seed_record_submit
-  phase_7_production_beta_hardening:
+  phase_9_production_beta_hardening:
     priority: P1
     goal: turn_hackathon_slice_into_beta
-  phase_8_integrations_and_enterprise:
+  phase_10_integrations_and_enterprise:
     priority: P2_P3
     goal: commerce_publish_adapters_enterprise_controls
 ```
@@ -130,32 +161,37 @@ phases:
 
 # 4. Critical Path
 
-The critical path is the minimum implementation sequence that produces the hackathon demo.
+The critical path is now UI-first: design and build the product surface first, then make the real system power it.
 
 ```txt
 1. Repo + environment skeleton
-2. Design tokens + app shell
-3. Clerk auth + internal org/user/membership model
-4. Neon schema migrations for P0 tables
-5. Core API command/query skeleton
-6. B2 bucket/key/signed URL integration
-7. NATS streams + event envelope
-8. Seeded product/campaign/catalog snapshot
-9. Session create/start/end + prerecorded source
-10. Signal/candidate event generation
-11. Mastra supervisor recommendation fixture or live structured output
-12. Moment policy capture authorization
-13. Capture Worker writes raw source/mezzanine to B2
-14. Generation Service creates generation_run
-15. Genblaze Worker executes template or labeled fallback
-16. Enhanced asset + manifest + provenance links written
-17. QA Worker writes post-enhancement QA
-18. Review Queue shows moment
-19. Reviewer approves canonical version
-20. Publish package/share page created
-21. Provenance graph shows raw → Genblaze run → enhanced → publish
-22. Golden path E2E smoke test passes
-23. Demo video recorded
+2. Frontend app bootstrap and Lumiq design tokens
+3. Authenticated workspace shell/sidebar/topbar with mock capability states
+4. Setup/onboarding, catalog, campaign, and template screens with fixtures
+5. Live Studio preflight/control room with fixture video, signal feed, and timeline
+6. Moment Vault, Review Queue, moment detail, raw/enhanced compare, and provenance screens
+7. Publish package, share page, admin/recovery, settings, and budget/provider shells
+8. Optional marketing/demo landing screens if schedule allows
+9. Core API, Clerk/dev auth, RBAC, service identities, audit skeleton
+10. Neon schema migrations for P0 tables
+11. B2 bucket/key/signed URL integration
+12. NATS streams + event envelope
+13. Seeded product/campaign/catalog snapshot
+14. Session create/start/end + prerecorded source
+15. Signal/candidate event generation
+16. Mastra supervisor recommendation fixture or live structured output
+17. Moment policy capture authorization
+18. Capture Worker writes raw source/mezzanine to B2
+19. Generation Service creates generation_run
+20. Genblaze Worker executes template or labeled fallback
+21. Enhanced asset + manifest + provenance links written
+22. QA Worker writes post-enhancement QA
+23. Wire UI screens to real APIs/events/assets and remove unlabeled fake states
+24. Reviewer approves canonical version
+25. Publish package/share page created
+26. Provenance graph shows raw → Genblaze run → enhanced → publish
+27. Golden path E2E smoke test passes
+28. Demo video recorded
 ```
 
 ---
@@ -170,6 +206,14 @@ workstreams:
       - seeded_data
       - demo_video_script
       - judge_story
+  marketing_public:
+    owns:
+      - marketing_landing_page
+      - demo_story_page
+      - public_waitlist_or_cta
+      - screenshots_gallery
+      - judge_facing_copy
+    priority_note: deferable_after_app_ui_if_time_is_tight
   frontend:
     owns:
       - design_system_application
@@ -358,17 +402,112 @@ phase_0:
 
 ---
 
-# 8. Phase 1 — Platform Foundation
+# 8. Phase 1 — Frontend App UI Screens First
 
 ## Goal
 
-Create a runnable local foundation: app shell, API, database, event backbone, B2 integration, service identities.
+Build the complete product UI surface before backend implementation depth. Screens should be route-level, token-compliant, and realistic enough for product review, demo rehearsal, and later API wiring.
 
 ```yaml
 phase_1:
   priority: P0
   exit_criteria:
+    - all_core_workspace_routes_render
+    - Lumiq_design_tokens_are_applied
+    - screens_use_contract_shaped_fixture_data
+    - empty_loading_error_blocked_states_exist
+    - unauthorized_controls_are_hidden_or_disabled_in_UI
+    - provenance_visual_pattern_is_present_before_backend_wiring
+```
+
+## Screen inventory
+
+The first frontend pass must cover:
+
+```txt
+Workspace shell
+Setup / seeded demo workspace
+Catalog
+Campaigns
+Templates
+Live Studio preflight
+Live Studio control room
+Signal timeline and candidate/progress cards
+Moment Vault
+Review Queue
+Moment Detail
+Raw/enhanced compare
+Product facts and QA panels
+Provenance graph
+Publish package and share page
+Admin/recovery shell
+Settings / budgets / providers shell
+```
+
+## Tasks
+
+| Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
+|---|---|---|---|---|---|
+| TASK-FE-FIRST-001 | Bootstrap web app, UI package, route structure, Tailwind/shadcn setup, and Lumiq token imports | Frontend | TASK-SPEC-004 | REQ-UI-001, REQ-UI-003 | Web app runs; tokens are used; no arbitrary colors |
+| TASK-FE-FIRST-002 | Build authenticated workspace shell/sidebar/topbar with mock org, role, budget, and notification states | Frontend | TASK-FE-FIRST-001 | REQ-UI-001, REQ-UI-002 | Role-based nav states render from fixture capabilities |
+| TASK-FE-FIRST-003 | Build setup/onboarding and seeded demo workspace screens | Frontend/Product | TASK-FE-FIRST-002 | 05-user-flows | Setup checklist, blocked states, and seeded demo CTA render |
+| TASK-FE-FIRST-004 | Build Catalog screens for products, SKUs, product media, and allowed claims | Frontend | TASK-FE-FIRST-002 | REQ-CATALOG-001, REQ-CATALOG-005 | Fixture products and blocked claim examples render |
+| TASK-FE-FIRST-005 | Build Campaign screens for offers, validity, active products, and campaign claims | Frontend | TASK-FE-FIRST-004 | REQ-CATALOG-005 | Offer validity and unsupported claim states render |
+| TASK-FE-FIRST-006 | Build Templates screens for system templates, template versions, and safe step graph summary | Frontend | TASK-FE-FIRST-002 | 15-template-step-graph-spec | Template cards show version, status, QA requirements |
+| TASK-FE-FIRST-007 | Build Live Studio preflight and control room screen with fixture source preview | Frontend | TASK-FE-FIRST-003 | REQ-SESSION-002 | Source, catalog snapshot, recording policy, budget, start controls render |
+| TASK-FE-FIRST-008 | Build signal feed, candidate/progress card, and bottom timeline UI | Frontend | TASK-FE-FIRST-007 | REQ-SIGNAL-001, REQ-SIGNAL-002 | Fixture signals show detection/capture/generation status chain |
+| TASK-FE-FIRST-009 | Build Moment Vault browsing screen with filters and media cards | Frontend | TASK-FE-FIRST-002 | 05-user-flows | Vault cards show state, product, QA, and lineage summary |
+| TASK-FE-FIRST-010 | Build Review Queue screen and review cards | Frontend | TASK-FE-FIRST-009 | REQ-REVIEW-001 | Pending/failed/approved cards render with evidence and QA chips |
+| TASK-FE-FIRST-011 | Build Moment Detail screen with raw/enhanced compare, product facts, QA, and controlled edit sections | Frontend | TASK-FE-FIRST-010 | REQ-REVIEW-003, REQ-CATALOG-005 | Desktop side-by-side and mobile toggle states render |
+| TASK-FE-FIRST-012 | Build provenance graph and compact lineage chain components | Frontend | TASK-FE-FIRST-011 | REQ-PROV-002, REQ-PROV-004 | Raw → run → enhanced → publish lineage renders from fixture graph |
+| TASK-FE-FIRST-013 | Build publish package and share page UI | Frontend | TASK-FE-FIRST-012 | REQ-PUBLISH-001, REQ-PUBLISH-004 | Publish package, signed/private/public states, product links render |
+| TASK-FE-FIRST-014 | Build Admin/Recovery and Settings/Budget/Provider shell screens | Frontend/Ops | TASK-FE-FIRST-002 | REQ-ADMIN-001, REQ-COST-004 | DLQ, failed runs, B2 object references, budget cards render as shells |
+| TASK-FE-FIRST-015 | Add component/story/Playwright smoke coverage for the UI-first route set | Frontend/QA | TASK-FE-FIRST-014 | GATE-UI | Main routes render with fixtures and no console errors |
+
+---
+
+# 9. Phase 2 — Marketing and Public Screens
+
+## Goal
+
+Build public-facing marketing/demo surfaces after the core app UI. This phase is useful for submission polish but can be deferred until after backend wiring if time is tight.
+
+```yaml
+phase_2:
+  priority: P0_optional
+  defer_rule: may_move_after_phase_6_without_blocking_golden_path
+  exit_criteria:
+    - marketing_hero_explains_lumiq
+    - demo_story_mentions_B2_Genblaze_Mastra_and_provenance
+    - screenshots_or_product_visuals_use_real_UI
+    - no_unsupported_external_publish_or_provider_claims
+```
+
+## Tasks
+
+| Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
+|---|---|---|---|---|---|
+| TASK-MKT-001 | Build marketing landing page shell and hero | Frontend/Design | TASK-FE-FIRST-001 | lumiq-DESIGN | Hero uses dark cinematic system and approved gradient rules |
+| TASK-MKT-002 | Build problem/solution/product sections | Product/Frontend | TASK-MKT-001 | 26-demo | Copy explains traceable live-commerce media pipeline |
+| TASK-MKT-003 | Build architecture/provenance explainer section | Product/Frontend | TASK-MKT-002 | 06-system-architecture-c4, 14-b2-storage-provenance-spec | Shows Mastra/Core API/NATS/Workers/Genblaze/B2/Postgres split |
+| TASK-MKT-004 | Build demo scenario page or section | Product/Demo | TASK-MKT-002 | 26-demo | Crossbody Bag Flash Offer story is visible |
+| TASK-MKT-005 | Build screenshot/gallery area from real app UI | Design/Frontend | TASK-FE-FIRST-015 | 26-demo | Uses app screenshots, not fake impossible screens |
+| TASK-MKT-006 | Add waitlist/contact/CTA and footer basics | Frontend/Product | TASK-MKT-001 | N/A | No unsupported pricing, compliance, or publish claims |
+
+---
+
+# 10. Phase 3 — Platform Foundation
+
+## Goal
+
+Create a runnable local foundation after the UI screen inventory exists: API, database, event backbone, B2 integration, service identities, and the frontend fixture/API boundary.
+
+```yaml
+phase_3:
+  priority: P0
+  exit_criteria:
     - local_stack_runs
+    - web_fixture_boundary_exists
     - web_can_call_api
     - api_can_connect_db
     - api_can_publish_nats_event
@@ -382,7 +521,7 @@ phase_1:
 |---|---|---|---|---|---|
 | TASK-FOUND-001 | Initialize monorepo package manager and lint/typecheck | Engineering | TASK-SPEC-004 | RULE-ENV-004 | `pnpm lint`, `pnpm typecheck` or equivalents pass |
 | TASK-FOUND-002 | Create Docker Compose local stack | Infra | TASK-FOUND-001 | RULE-ENV-002 | Starts API, workers, NATS, local DB or Neon branch config |
-| TASK-FOUND-003 | Create Next.js app shell using Lumiq tokens | Frontend | TASK-FOUND-001 | REQ-UI-001, REQ-UI-003 | Dark-only shell renders; no arbitrary colors |
+| TASK-FOUND-003 | Add frontend fixture/API boundary and environment switch | Frontend | TASK-FE-FIRST-015, TASK-FOUND-001 | REQ-UI-001 | UI can run on fixtures and later switch to API data |
 | TASK-FOUND-004 | Create Core API skeleton | Backend | TASK-FOUND-001 | RULE-ARCH-002 | `/healthz` works; structured logging enabled |
 | TASK-FOUND-005 | Implement Clerk/dev auth adapter | Backend | TASK-FOUND-004 | REQ-AUTH-001 | Authenticated user maps to internal user in dev/staging |
 | TASK-FOUND-006 | Implement internal authorization service skeleton | Backend | TASK-FOUND-005 | REQ-AUTH-002, REQ-AUTH-003 | Capability denial test passes |
@@ -393,14 +532,14 @@ phase_1:
 
 ---
 
-# 9. Phase 2 — Contracts and Data Model
+# 11. Phase 4 — Contracts and Data Model
 
 ## Goal
 
 Implement migrations and validation contracts for the P0 golden path.
 
 ```yaml
-phase_2:
+phase_4:
   priority: P0
   exit_criteria:
     - P0_tables_migrated
@@ -474,14 +613,14 @@ cost_ledger
 
 ---
 
-# 10. Phase 3 — Golden Path Backend
+# 12. Phase 5 — Golden Path Backend, AI, Media, and Provenance
 
 ## Goal
 
-Make the full backend media workflow real enough for the demo.
+Make the real backend, agent, worker, media, QA, publish, and provenance workflow power the UI-first product surface.
 
 ```yaml
-phase_3:
+phase_5:
   priority: P0
   exit_criteria:
     - seeded_session_can_detect_candidate
@@ -494,7 +633,7 @@ phase_3:
 
 ## Tasks
 
-### 10.1 Catalog and setup
+### 12.1 Catalog and setup
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -505,7 +644,7 @@ phase_3:
 | TASK-BE-CATALOG-004 | Implement catalog snapshot creation and B2 manifest write | Backend/Storage | TASK-BE-CATALOG-001 | REQ-CATALOG-003, REQ-CATALOG-004 | Postgres rows + B2 manifest exist |
 | TASK-BE-CATALOG-005 | Add seeded demo catalog/campaign script | Product/Backend | TASK-BE-CATALOG-004 | DEMO-AC-004 | Re-runnable seed test passes |
 
-### 10.2 Session and detection
+### 12.2 Session and detection
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -515,7 +654,7 @@ phase_3:
 | TASK-BE-SIGNAL-002 | Implement candidate proposal logic | Backend/Worker | TASK-BE-SIGNAL-001 | REQ-SIGNAL-002 | Candidate emitted for product reveal |
 | TASK-BE-SIGNAL-003 | Implement duplicate window suppression | Backend | TASK-BE-SIGNAL-002 | REQ-SIGNAL-005 | Duplicate candidate test passes |
 
-### 10.3 Mastra agent path
+### 12.3 Mastra agent path
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -526,7 +665,7 @@ phase_3:
 | TASK-AI-005 | Add deterministic fixture mode for demo | AI/QA | TASK-AI-003 | REQ-AGENT-005 | Fixture output clearly marked in config |
 | TASK-AI-006 | Add prompt injection eval fixtures | AI/Security | TASK-AI-004 | 20-ai-security-safety-spec | Unsafe tool request denied |
 
-### 10.4 Capture
+### 12.4 Capture
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -537,7 +676,7 @@ phase_3:
 | TASK-WORKER-CAPTURE-003 | Upload raw source to B2 and create asset record | Media/Storage | TASK-WORKER-CAPTURE-002, TASK-FOUND-009 | REQ-ASSET-001, REQ-ASSET-004 | B2 object + sha256 + asset row exist |
 | TASK-WORKER-CAPTURE-004 | Create raw mezzanine asset | Media/Worker | TASK-WORKER-CAPTURE-003 | REQ-CAPTURE-005 | Mezzanine exists or failure recorded |
 
-### 10.5 Generation and Genblaze
+### 12.5 Generation and Genblaze
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -550,7 +689,7 @@ phase_3:
 | TASK-WORKER-GEN-004 | Report generation completed/failed to Core API | Media/Backend | TASK-WORKER-GEN-003 | REQ-GEN-003, REQ-GEN-004 | State transition tests pass |
 | TASK-WORKER-GEN-005 | Implement rerender new-version behavior | Backend/Media | TASK-WORKER-GEN-004 | REQ-GEN-005 | Rerender creates new asset key |
 
-### 10.6 QA, review, publish, provenance
+### 12.6 QA, review, publish, provenance
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
@@ -564,51 +703,53 @@ phase_3:
 
 ---
 
-# 11. Phase 4 — Golden Path Frontend
+# 13. Phase 6 — Wire Frontend Screens to Real Backend
 
 ## Goal
 
-Build the screens required to demonstrate the full workflow.
+Replace UI-first fixtures with real Core API, event, asset, signed URL, QA, publish, and provenance flows without changing the screen architecture.
 
 ```yaml
-phase_4:
+phase_6:
   priority: P0
   exit_criteria:
-    - seeded_setup_visible
-    - Live_Studio_shows_detection_progress
-    - Review_Queue_supports_compare_and_approve
-    - Provenance_UI_shows_lineage
-    - Share_Page_renders_publish_package
+    - seeded_setup_visible_from_real_API
+    - Live_Studio_shows_real_or_seeded_detection_progress
+    - Review_Queue_supports_compare_and_approve_with_signed_URLs
+    - Provenance_UI_shows_real_lineage
+    - Share_Page_renders_real_publish_package
+    - fixture_only_states_are_removed_or_clearly_labeled
 ```
 
 ## Tasks
 
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
-| TASK-FE-001 | Implement authenticated app shell/sidebar/topbar | Frontend | TASK-FOUND-003, TASK-FOUND-005 | REQ-UI-001 | Role-based nav smoke test |
-| TASK-FE-002 | Implement setup/demo workspace screen | Frontend | TASK-BE-SETUP-001, TASK-BE-CATALOG-005 | 05-user-flows | Seeded setup visible |
-| TASK-FE-003 | Implement catalog/campaign summary cards | Frontend | TASK-BE-CATALOG-001 | REQ-CATALOG-001 | Product/claim data renders |
-| TASK-FE-004 | Implement Live Studio preflight | Frontend | TASK-BE-SESSION-001 | REQ-SESSION-002 | Start demo session works |
-| TASK-FE-005 | Implement Live Studio control room | Frontend | TASK-BE-SESSION-002, TASK-BE-SIGNAL-001 | REQ-REVIEW-002 | Video preview + signal feed render |
-| TASK-FE-006 | Implement candidate/progress card | Frontend | TASK-BE-SIGNAL-002, TASK-WORKER-CAPTURE-003 | REQ-SIGNAL-002 | Status chain updates |
-| TASK-FE-007 | Implement Review Queue cards | Frontend | TASK-REVIEW-001 | REQ-REVIEW-001 | Review item appears with QA status |
-| TASK-FE-008 | Implement raw/enhanced compare view | Frontend | TASK-WORKER-GEN-004 | REQ-REVIEW-003 | Signed URLs load in compare UI |
-| TASK-FE-009 | Implement product facts and QA panels | Frontend | TASK-QA-002 | REQ-QA-002, REQ-CATALOG-005 | Claims visible and blocked state renders |
-| TASK-FE-010 | Implement provenance graph panel | Frontend | TASK-PROV-001 | REQ-PROV-004 | Graph shows lineage nodes |
-| TASK-FE-011 | Implement approve/canonical action UI | Frontend | TASK-REVIEW-002 | REQ-REVIEW-005 | Approve button calls API and updates state |
-| TASK-FE-012 | Implement publish package/share page UI | Frontend | TASK-PUBLISH-002 | REQ-PUBLISH-004 | Share page renders public/private states |
-| TASK-FE-013 | Implement admin mini panel for B2/manifests | Frontend | TASK-PROV-001 | DEMO-AC-002 | B2 key/checksum visible without raw secrets |
+| TASK-FE-WIRE-001 | Wire workspace shell/sidebar/topbar to auth, organization, role, and budget APIs | Frontend | TASK-FE-FIRST-002, TASK-FOUND-005, TASK-FOUND-006 | REQ-UI-001, REQ-UI-002 | Real capability state controls nav visibility |
+| TASK-FE-WIRE-002 | Wire setup/demo workspace screen to setup-status and seed APIs | Frontend | TASK-FE-FIRST-003, TASK-BE-SETUP-001, TASK-BE-CATALOG-005 | 05-user-flows | Seeded setup visible from real API |
+| TASK-FE-WIRE-003 | Wire catalog/campaign screens to product, campaign, offer, and claim APIs | Frontend | TASK-FE-FIRST-004, TASK-FE-FIRST-005, TASK-BE-CATALOG-001, TASK-BE-CATALOG-002 | REQ-CATALOG-001, REQ-CATALOG-005 | Products/offers/claims load and invalid claims are shown as blocked |
+| TASK-FE-WIRE-004 | Wire Live Studio preflight to session and catalog snapshot APIs | Frontend | TASK-FE-FIRST-007, TASK-BE-SESSION-001, TASK-BE-CATALOG-004 | REQ-SESSION-002, REQ-CATALOG-003 | Start demo session works from UI |
+| TASK-FE-WIRE-005 | Wire Live Studio control room timeline and signal feed to session/candidate data | Frontend | TASK-FE-FIRST-008, TASK-BE-SIGNAL-001, TASK-BE-SIGNAL-002 | REQ-SIGNAL-001, REQ-SIGNAL-002 | Candidate appears during prerecorded-live flow |
+| TASK-FE-WIRE-006 | Wire candidate/progress card to capture, generation, QA, and publish states | Frontend | TASK-FE-FIRST-008, TASK-WORKER-CAPTURE-003, TASK-WORKER-GEN-004, TASK-QA-001 | REQ-CAPTURE-004, REQ-GEN-003, REQ-QA-002 | Status chain reflects real backend state |
+| TASK-FE-WIRE-007 | Wire Review Queue cards to review queue query | Frontend | TASK-FE-FIRST-010, TASK-REVIEW-001 | REQ-REVIEW-001 | Review pending item appears with QA status |
+| TASK-FE-WIRE-008 | Wire raw/enhanced compare view to signed asset URLs | Frontend | TASK-FE-FIRST-011, TASK-WORKER-GEN-004 | REQ-REVIEW-003, REQ-ASSET-001 | Raw/enhanced assets load without exposing B2 credentials |
+| TASK-FE-WIRE-009 | Wire product facts and QA panels to catalog snapshot and QA records | Frontend | TASK-FE-FIRST-011, TASK-QA-002 | REQ-QA-002, REQ-CATALOG-005 | Claims and blocked states use real QA/catalog data |
+| TASK-FE-WIRE-010 | Wire provenance graph panel to real provenance graph query | Frontend | TASK-FE-FIRST-012, TASK-PROV-001 | REQ-PROV-004 | Graph shows raw, run, enhanced, publish nodes |
+| TASK-FE-WIRE-011 | Wire approve/reject/promote canonical UI actions | Frontend | TASK-FE-FIRST-010, TASK-REVIEW-002 | REQ-REVIEW-005 | Approve button calls API, writes audit, and updates state |
+| TASK-FE-WIRE-012 | Wire publish package and share page UI | Frontend | TASK-FE-FIRST-013, TASK-PUBLISH-002 | REQ-PUBLISH-004 | Share page renders public/private states from real package |
+| TASK-FE-WIRE-013 | Wire admin mini panel for B2/manifests/DLQ read-only demo proof | Frontend/Ops | TASK-FE-FIRST-014, TASK-PROV-001, TASK-OPS-001 | DEMO-AC-002, REQ-ADMIN-001 | B2 keys/checksums visible without raw secrets |
+| TASK-FE-WIRE-014 | Remove or label all fixture-only states before demo recording | Frontend/QA/Product | TASK-FE-WIRE-013 | 26-demo | Simulated pieces are clearly labeled; no fake external publish claim |
 
 ---
 
-# 12. Phase 5 — Testing, Observability, and Recovery
+# 14. Phase 7 — Testing, Observability, and Recovery
 
 ## Goal
 
 Make the demo reliable and protect core safety properties.
 
 ```yaml
-phase_5:
+phase_7:
   priority: P0_P1
   exit_criteria:
     - golden_path_smoke_test_passes
@@ -627,24 +768,24 @@ phase_5:
 | TASK-TEST-004 | Add product claim grounding tests | QA/Commerce | TASK-QA-002 | REQ-CATALOG-005 | Unsupported claim blocked |
 | TASK-TEST-005 | Add agent structured output tests | QA/AI | TASK-AI-003 | REQ-AGENT-005 | Malformed output rejected |
 | TASK-TEST-006 | Add Genblaze worker mock integration test | QA/Media | TASK-WORKER-GEN-002 | REQ-GEN-002 | Output asset + manifest created |
-| TASK-TEST-007 | Add Playwright golden path E2E | QA/Frontend | TASK-FE-012 | RULE-TEST-004 | Seed → share page passes |
+| TASK-TEST-007 | Add Playwright golden path E2E | QA/Frontend | TASK-FE-WIRE-012 | RULE-TEST-004 | Seed → share page passes |
 | TASK-OBS-001 | Implement trace/correlation ID propagation | Backend/Infra | TASK-FOUND-004 | REQ-AUDIT-002 | API/event/worker logs share trace_id |
 | TASK-OBS-002 | Add structured redacted logs | Backend/Infra | TASK-FOUND-004 | REQ-AUDIT-003 | No raw prompts/transcripts in logs test |
 | TASK-OBS-003 | Add minimal metrics counters | Infra/Backend | TASK-WORKER-GEN-004 | REQ-AUDIT-004 | Capture/gen/QA counters visible |
-| TASK-OPS-001 | Implement minimal DLQ table/query UI | Backend/Frontend | TASK-FOUND-008, TASK-FE-001 | REQ-EVENT-005 | Failed test event appears in Admin |
+| TASK-OPS-001 | Implement minimal DLQ table/query UI | Backend/Frontend | TASK-FOUND-008, TASK-FE-WIRE-001 | REQ-EVENT-005 | Failed test event appears in Admin |
 | TASK-OPS-002 | Implement manual retry generation action | Backend/Ops | TASK-WORKER-GEN-004 | 25-admin-recovery-runbooks | Audit + idempotency test passes |
 | TASK-OPS-003 | Implement B2 reconciliation dry-run script | Storage/Ops | TASK-WORKER-GEN-003 | 25-admin-recovery-runbooks | Reports missing/orphan objects |
 
 ---
 
-# 13. Phase 6 — Deployment and Submission
+# 15. Phase 8 — Deployment and Submission
 
 ## Goal
 
 Deploy, seed, test, record, and submit.
 
 ```yaml
-phase_6:
+phase_8:
   priority: P0
   exit_criteria:
     - app_url_live
@@ -659,7 +800,7 @@ phase_6:
 | Task ID | Task | Owner | Depends on | Requirement refs | DoD / Test gate |
 |---|---|---|---|---|---|
 | TASK-DEPLOY-001 | Create staging/prod environment variables | Infra | TASK-FOUND-009 | 23-infrastructure | Secrets present; no secrets in repo |
-| TASK-DEPLOY-002 | Deploy Web App | Infra/Frontend | TASK-FE-012 | 23-infrastructure | App URL loads |
+| TASK-DEPLOY-002 | Deploy Web App | Infra/Frontend | TASK-FE-WIRE-012 | 23-infrastructure | App URL loads |
 | TASK-DEPLOY-003 | Deploy Core API | Infra/Backend | TASK-BE-GEN-001 | 23-infrastructure | `/healthz` public/internal checks pass |
 | TASK-DEPLOY-004 | Deploy Mastra Agent Service | Infra/AI | TASK-AI-004 | 23-infrastructure | Agent endpoint reachable from API |
 | TASK-DEPLOY-005 | Deploy workers | Infra/Media | TASK-WORKER-GEN-004 | 23-infrastructure | Workers connect to NATS/B2/API |
@@ -672,14 +813,14 @@ phase_6:
 
 ---
 
-# 14. Phase 7 — Production Beta Hardening
+# 16. Phase 9 — Production Beta Hardening
 
 ## Goal
 
 Turn the hackathon slice into a production beta.
 
 ```yaml
-phase_7:
+phase_9:
   priority: P1
   exit_criteria:
     - controlled_rerender_stable
@@ -729,14 +870,14 @@ p1_task_groups:
 
 ---
 
-# 15. Phase 8 — Integrations and Enterprise
+# 17. Phase 10 — Integrations and Enterprise
 
 ## Goal
 
 Expand beyond the demo/beta into real live-commerce operations.
 
 ```yaml
-phase_8:
+phase_10:
   priority: P2_P3
   task_groups:
     commerce_integrations:
@@ -762,12 +903,14 @@ phase_8:
 
 ---
 
-# 16. Dependency Map
+# 18. Dependency Map
 
 ```mermaid
 flowchart TB
   Specs[Docs 00-27]
   Repo[Repo Skeleton]
+  UI[Frontend App UI Screens First]
+  Marketing[Marketing/Public Screens Optional]
   Foundation[Platform Foundation]
   Data[DB + Contracts]
   B2[B2 Integration]
@@ -780,14 +923,17 @@ flowchart TB
   Capture[Capture Worker]
   Gen[Genblaze Worker]
   QA[QA]
-  Review[Review UI/API]
+  ReviewAPI[Review API]
   Publish[Publish Package + Share]
   Prov[Provenance Graph]
+  Wire[Wire UI to Real Backend]
   E2E[Golden Path E2E]
   Deploy[Deploy + Submit]
 
   Specs --> Repo
-  Repo --> Foundation
+  Repo --> UI
+  UI -. deferable .-> Marketing
+  UI --> Foundation
   Foundation --> Auth
   Foundation --> NATS
   Foundation --> B2
@@ -802,17 +948,21 @@ flowchart TB
   NATS --> Capture
   Capture --> Gen
   Gen --> QA
-  QA --> Review
-  Review --> Publish
+  QA --> ReviewAPI
+  ReviewAPI --> Publish
   Publish --> Prov
   Gen --> Prov
-  Prov --> E2E
+  Prov --> Wire
+  ReviewAPI --> Wire
+  Auth --> Wire
+  Wire --> E2E
+  Marketing -. supports submission polish .-> Deploy
   E2E --> Deploy
 ```
 
 ---
 
-# 17. AI Coding Agent Work Protocol
+# 19. AI Coding Agent Work Protocol
 
 Every coding agent must follow this protocol.
 
@@ -829,7 +979,7 @@ Every coding agent must follow this protocol.
 10. Update docs/contracts if behavior changes.
 ```
 
-## 17.1 Required task prompt format for coding agents
+## 19.1 Required task prompt format for coding agents
 
 ```txt
 Task ID:
@@ -841,7 +991,7 @@ Tests required:
 Do not change:
 ```
 
-## 17.2 Stop conditions
+## 19.2 Stop conditions
 
 Coding agents must stop or request a spec update when:
 
@@ -857,7 +1007,7 @@ secrets or credentials are requested in code
 
 ---
 
-# 18. Test Gate Matrix
+# 20. Test Gate Matrix
 
 | Gate | Required before | Includes |
 |---|---|---|
@@ -873,9 +1023,9 @@ secrets or credentials are requested in code
 
 ---
 
-# 19. Release Gates
+# 21. Release Gates
 
-## 19.1 Hackathon release gate
+## 21.1 Hackathon release gate
 
 ```txt
 [ ] App URL loads.
@@ -890,7 +1040,7 @@ secrets or credentials are requested in code
 [ ] Submission story proofread.
 ```
 
-## 19.2 Production beta gate
+## 21.2 Production beta gate
 
 ```txt
 [ ] No P0 security gaps open.
@@ -905,7 +1055,7 @@ secrets or credentials are requested in code
 
 ---
 
-# 20. Known Open Questions
+# 22. Known Open Questions
 
 These are not blockers for the hackathon golden path unless they affect selected implementation choices.
 
@@ -926,11 +1076,30 @@ These are not blockers for the hackathon golden path unless they affect selected
 
 ---
 
-# 21. Backlog Summary by Priority
+# 23. Backlog Summary by Priority
 
 ```yaml
-P0_hackathon:
-  - app_shell
+P0_ui_first:
+  - frontend_app_bootstrap
+  - design_tokens_applied
+  - workspace_shell
+  - setup_onboarding_screen
+  - catalog_campaign_template_screens
+  - Live_Studio_preflight_and_control_room
+  - signal_timeline_and_candidate_cards
+  - Moment_Vault
+  - Review_Queue
+  - raw_vs_enhanced_compare
+  - provenance_graph
+  - publish_package_share_page
+  - admin_recovery_settings_shells
+  - fixture_route_smoke_tests
+P0_marketing_optional:
+  - marketing_landing_page
+  - demo_story_page
+  - architecture_provenance_explainer
+  - screenshots_gallery
+P0_backend_and_wiring:
   - Clerk_or_dev_auth
   - internal_RBAC
   - P0_database_schema
@@ -945,10 +1114,9 @@ P0_hackathon:
   - Genblaze_worker
   - provenance_manifest
   - QA_minimal
-  - review_queue
-  - raw_vs_enhanced_compare
-  - publish_package_share_page
-  - provenance_graph
+  - review_queue_API
+  - publish_package_share_page_API
+  - frontend_real_API_wiring
   - golden_E2E
   - deployment_demo_submission
 P1_beta:
@@ -975,8 +1143,9 @@ P3_enterprise:
 
 ---
 
-# 22. Change Log
+# 24. Change Log
 
 | Version | Change |
 |---|---|
 | v1 | Created ordered implementation plan with phases, task IDs, dependencies, definitions of done, test gates, coding-agent protocol, and release gates. |
+| v2 | Reordered plan to build all core frontend app UI screens first, add optional marketing/public screens after app UI, then proceed through platform foundation, contracts/data, backend/media workflows, real API wiring, testing, deployment, beta hardening, and integrations. |
