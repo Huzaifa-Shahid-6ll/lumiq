@@ -83,6 +83,9 @@
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
   Fill them out with the right functional requirements.
+  Lumiq requirements must preserve the constitution: spec-first traceability, Core API
+  authorization, tenant scope, provenance, grounded commerce claims, idempotency, audit,
+  contract/schema validation, and dark-only design-token compliance where applicable.
 -->
 
 ### Functional Requirements
@@ -97,6 +100,19 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### Constitutional Requirements *(include when applicable)*
+
+- **CR-001**: Feature MUST reference relevant Lumiq requirement IDs from
+  `docs/product/04-requirements-ears.md` or require a spec update before implementation.
+- **CR-002**: Any state-changing operation MUST route through the Core API or an approved
+  state-transition service with tenant scope, capability checks, idempotency, and audit.
+- **CR-003**: Any media or publish output MUST define raw source, asset records, B2 object
+  keys, checksums, manifests, and provenance lineage.
+- **CR-004**: Any product claim or commerce copy MUST be grounded in catalog/campaign
+  facts and identify required review or blocking behavior for unsupported claims.
+- **CR-005**: Any agent, LLM, worker, event, provider, or publish behavior MUST define
+  schema validation, retry/failure handling, and DLQ or recovery visibility.
 
 ### Key Entities *(include if feature involves data)*
 

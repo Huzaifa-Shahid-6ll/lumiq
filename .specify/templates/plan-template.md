@@ -40,7 +40,28 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Specs and requirement IDs**: List the Lumiq specs read and the requirement IDs this
+  feature implements. If behavior lacks a requirement ID, stop for a spec update or mark
+  the work explicitly exploratory.
+- **Architecture boundary**: Confirm Mastra recommends, Core API authorizes state and
+  policy, NATS dispatches, workers execute, Genblaze handles media orchestration, B2 stores
+  media/provenance, and Postgres stores operational truth.
+- **Agent/tool safety**: Confirm agents do not receive raw B2/provider/DB credentials and
+  all side-effecting tool calls go through typed Core API gateways with service identity,
+  tenant scope, schema validation, idempotency, policy checks, and audit logging.
+- **Provenance/storage**: Confirm raw source preservation, immutable B2 object keys,
+  tenant key prefix `tenants/{organization_id}/`, checksums, manifests, Postgres asset rows,
+  and raw-to-publish lineage.
+- **Commerce/media integrity**: Confirm catalog snapshot use, grounded product claims,
+  restricted-claim verification, and product visual integrity review/blocking behavior.
+- **Events/workflows**: Confirm standard event envelope, schema versioning, stable NATS
+  subjects, idempotent consumers, retry/DLQ handling, and recovery visibility.
+- **Security/privacy**: Confirm Clerk authentication, internal capabilities, tenant
+  isolation, secret redaction, prompt-injection treatment, and human approval for sensitive
+  actions by default.
+- **Contracts/tests/design**: Confirm API/event/schema/tool/manifest/template validation,
+  tests or manual evaluation criteria for risky behavior, and Lumiq dark-only design-token
+  compliance for UI work.
 
 ## Project Structure
 

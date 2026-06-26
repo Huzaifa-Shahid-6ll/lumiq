@@ -9,7 +9,10 @@ description: "Task list template for feature implementation"
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Lumiq tests are REQUIRED for behavior that creates media, changes state, spends
+money, publishes content, exposes data, deletes assets, influences product claims, calls
+providers/LLMs, or crosses service boundaries. For lower-risk work, include explicit
+manual evaluation criteria if automated tests are not appropriate.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -69,6 +72,8 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T007 Create base models/entities that all stories depend on
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup environment configuration management
+- [ ] T010 Configure schema/contract validation for affected API, event, tool, manifest, or template boundaries
+- [ ] T011 Configure audit, trace/correlation IDs, idempotency keys, retry/DLQ visibility, and tenant-scope checks
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -84,17 +89,18 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T012 [P] [US1] Contract/schema test for [API/event/tool/manifest] in tests/contract/test_[name].py
+- [ ] T013 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T014 [P] [US1] Constitution test for tenant scope, idempotency, audit, provenance, or grounded claims in tests/integration/test_[name].py
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T015 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T016 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T017 [US1] Implement [Service] in src/services/[service].py (depends on T015, T016)
+- [ ] T018 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T019 [US1] Add validation, error handling, tenant scope, idempotency, and audit logging
+- [ ] T020 [US1] Add provenance, manifest, checksum, or grounded-claim handling where applicable
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -156,6 +162,7 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX Performance optimization across all stories
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
+- [ ] TXXX Validate contracts and schemas with `pnpm contracts:validate` and `pnpm schemas:validate`
 - [ ] TXXX Run quickstart.md validation
 
 ---
@@ -183,6 +190,9 @@ Examples of foundational tasks (adjust based on your project):
 - Models before services
 - Services before endpoints
 - Core implementation before integration
+- Schema/contract validation before side effects
+- Tenant scope, idempotency, and audit before worker/provider/publish execution
+- Raw source, B2 key, checksum, manifest, and provenance linkage before generated/published output is considered complete
 - Story complete before moving to next priority
 
 ### Parallel Opportunities

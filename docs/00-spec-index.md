@@ -70,11 +70,14 @@ Completed official spec-kit documents:
 
 Important note:
 
-The PRD currently exists as a generated full PRD file and should be placed in the repo as:
+The product requirements source currently lives in the repo as:
 
 ```txt
-docs/product/01-product-requirements.md
+docs/product/PRD.md
 ```
+
+Treat `PRD.md` as the canonical `01-product-requirements.md` document until the file is
+renamed or aliased.
 
 Auxiliary design-system files have also been created, but they are **not counted** as part of the original 28-doc spec kit:
 
@@ -173,7 +176,7 @@ or:
 | # | Document | Status | Purpose | Owner |
 |---:|---|---|---|---|
 | 00 | `00-spec-index.md` | Created | Master map, reading order, status, governance | Product/Architecture |
-| 01 | `01-product-requirements.md` | Created as PRD file; needs canonical placement | Product scope, goals, architecture-level product decisions | Product |
+| 01 | `PRD.md` (`01-product-requirements.md`) | Created | Product scope, goals, architecture-level product decisions | Product |
 | 02 | `02-project-constitution.md` | Created | Non-negotiable architecture, safety, design, and implementation rules | Architecture |
 | 03 | `03-glossary-domain-language.md` | Created | Shared vocabulary and domain language | Product/Architecture |
 | 04 | `04-requirements-ears.md` | Created | Structured requirements and acceptance criteria | Product/QA |
@@ -209,7 +212,7 @@ or:
 
 ```txt
 00-spec-index.md
-01-product-requirements.md
+PRD.md
 03-glossary-domain-language.md
 04-requirements-ears.md
 05-user-flows-ux-spec.md
@@ -223,7 +226,7 @@ or:
 00-spec-index.md
 02-project-constitution.md
 03-glossary-domain-language.md
-01-product-requirements.md
+PRD.md
 04-requirements-ears.md
 06-system-architecture-c4.md
 07-service-decomposition.md
@@ -297,7 +300,7 @@ Every AI coding agent must follow this sequence before editing code.
 1. Read 00-spec-index.md.
 2. Read 02-project-constitution.md.
 3. Read 03-glossary-domain-language.md.
-4. Read 01-product-requirements.md.
+4. Read PRD.md.
 5. Read 04-requirements-ears.md.
 6. Read the specific spec related to the task.
 7. Read relevant contracts/schemas.
@@ -346,7 +349,7 @@ When documents conflict, use this precedence order:
 
 ```txt
 1. 02-project-constitution.md
-2. 01-product-requirements.md
+2. PRD.md
 3. 04-requirements-ears.md
 4. Domain-specific spec
 5. Machine-readable contracts/schemas
