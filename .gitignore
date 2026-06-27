@@ -1,0 +1,7 @@
+node_modules
+.turbo
+.env.local
+apps/web/.next
+apps/web/.turbo
+apps/api/.turbo
+apps/mastra/.turbo
