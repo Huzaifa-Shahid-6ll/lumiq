@@ -668,7 +668,7 @@ Required reading order:
 1. docs/00-spec-index.md
 2. docs/architecture/02-project-constitution.md
 3. docs/product/03-glossary-domain-language.md
-4. docs/product/01-product-requirements.md
+4. docs/product/PRD.md
 5. docs/product/04-requirements-ears.md
 6. Relevant domain spec
 7. Relevant API/event/schema contracts

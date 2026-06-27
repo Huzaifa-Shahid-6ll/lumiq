@@ -74,7 +74,7 @@ When documents conflict, use this order:
 
 ```txt
 1. 02-project-constitution.md
-2. 01-product-requirements.md
+2. PRD.md
 3. 04-requirements-ears.md
 4. Domain-specific spec
 5. API/event/schema contracts
@@ -1180,7 +1180,7 @@ You are working on Lumiq. Before coding, read:
 1. /docs/00-spec-index.md
 2. /docs/architecture/02-project-constitution.md
 3. /docs/product/03-glossary-domain-language.md
-4. /docs/product/01-product-requirements.md
+4. /docs/product/PRD.md
 5. /docs/product/04-requirements-ears.md
 6. Any domain-specific spec relevant to the task.
 
