@@ -12,14 +12,14 @@
 
 **Purpose**: Prepare the web app for Lumiq UI work, shadcn composition, and design-token compliance.
 
-- [ ] T001 Create Lumiq frontend product context in `apps/web/PRODUCT.md`
-- [ ] T002 Initialize shadcn/ui configuration for the Next.js Tailwind v4 app in `apps/web/components.json`
-- [ ] T003 [P] Install required UI/icon dependencies in `apps/web/package.json`
-- [ ] T004 [P] Add shadcn primitive components for button, badge, tabs, dialog, sheet, tooltip, select, input, checkbox, switch, progress, skeleton, table, separator, scroll-area, alert, and card in `apps/web/src/components/ui/`
-- [ ] T005 Map Lumiq design tokens from `docs/design/variables.css`, `docs/design/theme.css`, and `docs/design/tokens.json` into `apps/web/src/app/globals.css`
-- [ ] T006 Configure root metadata, dark-only document shell, and font variables in `apps/web/src/app/layout.tsx`
-- [ ] T007 Add route and screen type definitions for all UI-only entities in `apps/web/src/lib/screen-types.ts`
-- [ ] T008 Add shared class name helper in `apps/web/src/lib/cn.ts`
+- [X] T001 Create Lumiq frontend product context in `apps/web/PRODUCT.md`
+- [X] T002 Initialize shadcn/ui configuration for the Next.js Tailwind v4 app in `apps/web/components.json`
+- [X] T003 [P] Install required UI/icon dependencies in `apps/web/package.json`
+- [X] T004 [P] Add shadcn primitive components for button, badge, tabs, dialog, sheet, tooltip, select, input, checkbox, switch, progress, skeleton, table, separator, scroll-area, alert, and card in `apps/web/src/components/ui/`
+- [X] T005 Map Lumiq design tokens from `docs/design/variables.css`, `docs/design/theme.css`, and `docs/design/tokens.json` into `apps/web/src/app/globals.css`
+- [X] T006 Configure root metadata, dark-only document shell, and font variables in `apps/web/src/app/layout.tsx`
+- [X] T007 Add route and screen type definitions for all UI-only entities in `apps/web/src/lib/screen-types.ts`
+- [X] T008 Add shared class name helper in `apps/web/src/lib/cn.ts`
 
 ---
 
@@ -29,18 +29,18 @@
 
 **CRITICAL**: No user story work should begin until this phase is complete.
 
-- [ ] T009 Create seeded organizations, role presets, and capability visibility data in `apps/web/src/lib/mock-data/organization.ts`
-- [ ] T010 [P] Create seeded products, allowed claims, campaigns, and catalog snapshots in `apps/web/src/lib/mock-data/commerce.ts`
-- [ ] T011 [P] Create seeded sessions, signal events, moments, assets, generation runs, QA summaries, publish packages, share states, analytics metrics, and admin recovery items in `apps/web/src/lib/mock-data/workflow.ts`
-- [ ] T012 Create aggregate mock data exports and lookup helpers in `apps/web/src/lib/mock-data/index.ts`
-- [ ] T013 Create workspace navigation definitions with role/capability metadata in `apps/web/src/lib/navigation.ts`
-- [ ] T014 Create reusable status, mono metadata, disabled-reason, and state banner components in `apps/web/src/components/common/status-primitives.tsx`
-- [ ] T015 [P] Create reusable media placeholder and technical proof components in `apps/web/src/components/common/media-primitives.tsx`
-- [ ] T016 [P] Create reusable compact lineage chain and full provenance graph components in `apps/web/src/components/provenance/provenance-components.tsx`
-- [ ] T017 Create public, workspace, and share layout primitives in `apps/web/src/components/shell/layout-primitives.tsx`
-- [ ] T018 Create authenticated mock workspace shell with topbar, sidebar, role selector, mobile navigation, budget indicator, and notification states in `apps/web/src/components/shell/workspace-shell.tsx`
-- [ ] T019 Add workspace route group layout using the mock shell in `apps/web/src/app/(workspace)/layout.tsx`
-- [ ] T020 Add manual state toggle primitives for seeded UI variants in `apps/web/src/components/common/state-switcher.tsx`
+- [X] T009 Create seeded organizations, role presets, and capability visibility data in `apps/web/src/lib/mock-data/organization.ts`
+- [X] T010 [P] Create seeded products, allowed claims, campaigns, and catalog snapshots in `apps/web/src/lib/mock-data/commerce.ts`
+- [X] T011 [P] Create seeded sessions, signal events, moments, assets, generation runs, QA summaries, publish packages, share states, analytics metrics, and admin recovery items in `apps/web/src/lib/mock-data/workflow.ts`
+- [X] T012 Create aggregate mock data exports and lookup helpers in `apps/web/src/lib/mock-data/index.ts`
+- [X] T013 Create workspace navigation definitions with role/capability metadata in `apps/web/src/lib/navigation.ts`
+- [X] T014 Create reusable status, mono metadata, disabled-reason, and state banner components in `apps/web/src/components/common/status-primitives.tsx`
+- [X] T015 [P] Create reusable media placeholder and technical proof components in `apps/web/src/components/common/media-primitives.tsx`
+- [X] T016 [P] Create reusable compact lineage chain and full provenance graph components in `apps/web/src/components/provenance/provenance-components.tsx`
+- [X] T017 Create public, workspace, and share layout primitives in `apps/web/src/components/shell/layout-primitives.tsx`
+- [X] T018 Create authenticated mock workspace shell with topbar, sidebar, role selector, mobile navigation, budget indicator, and notification states in `apps/web/src/components/shell/workspace-shell.tsx`
+- [X] T019 Add workspace route group layout using the mock shell in `apps/web/src/app/(workspace)/layout.tsx`
+- [X] T020 Add manual state toggle primitives for seeded UI variants in `apps/web/src/components/common/state-switcher.tsx`
 
 **Checkpoint**: Shared tokens, data, shells, and provenance/status primitives are ready.
 

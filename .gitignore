@@ -11,3 +11,6 @@ __pycache__
 .pytest_cache
 .venv
 *.pyc
+apps/web/.next
+apps/web/.turbo
+apps/api/.turbo

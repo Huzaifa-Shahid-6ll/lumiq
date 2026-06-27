@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored Bklit (@bklit) chart registry components — generated third-party
+    // source maintained upstream, not linted against our app rules.
+    "src/components/charts/**",
+    "src/components/shimmering-text.tsx",
   ]),
 ]);
 
