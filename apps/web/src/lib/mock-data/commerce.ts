@@ -11,6 +11,7 @@ import type {
   CatalogSnapshot,
   MockCampaign,
   MockProduct,
+  MockTemplate,
 } from "@/lib/screen-types";
 import { DEMO_ORGANIZATION_ID } from "@/lib/mock-data/organization";
 
@@ -249,8 +250,134 @@ export const mockCatalogSnapshots: CatalogSnapshot[] = [
 ];
 
 /* ------------------------------------------------------------------ *
+ * Templates (safe typed step graphs + allowed creative controls)
+ *
+ * Templates only expose appearance-preserving controls. Steps that could change product
+ * color/material/shape are never present; restricted creative controls render as not-allowed.
+ * These drive the Templates screen (US6) and are referenced by generation runs.
+ * ------------------------------------------------------------------ */
+
+export const DEMO_TEMPLATE_ID = "clean_product_reveal_v1";
+
+export const mockTemplates: MockTemplate[] = [
+  {
+    templateId: DEMO_TEMPLATE_ID,
+    organizationId: DEMO_ORGANIZATION_ID,
+    name: "Clean Product Reveal",
+    version: "v1",
+    status: "active",
+    category: "Product reveal",
+    description:
+      "Stabilize, reframe to vertical, apply a neutral grade, and add caption overlays grounded in allowed claims. Product appearance is never altered.",
+    stepGraphId: "stepgraph_clean_reveal_v1",
+    steps: [
+      { stepId: "s1", label: "Ingest mezzanine", kind: "ingest", detail: "Decode raw mezzanine; no re-encode of source.", safe: true },
+      { stepId: "s2", label: "Stabilize", kind: "stabilize", detail: "Motion stabilization within safe crop bounds.", safe: true },
+      { stepId: "s3", label: "Reframe 9:16", kind: "reframe", detail: "Subject-aware reframe; product kept fully in frame.", safe: true },
+      { stepId: "s4", label: "Neutral grade", kind: "color-grade", detail: "Exposure/contrast only — product hue is locked.", safe: true },
+      { stepId: "s5", label: "Audio level", kind: "audio", detail: "Loudness normalization to platform target.", safe: true },
+      { stepId: "s6", label: "Caption overlay", kind: "caption", detail: "Captions drawn only from allowed claims.", safe: true },
+      { stepId: "s7", label: "Package variants", kind: "package", detail: "Emit 9:16 publish variant + thumbnail + manifest.", safe: true },
+    ],
+    allowedControls: [
+      { controlId: "c_grade", label: "Neutral exposure / contrast", allowed: true, detail: "Bounded tone adjustment; no hue shift." },
+      { controlId: "c_reframe", label: "Subject-aware reframe", allowed: true, detail: "Keeps the product fully in frame." },
+      { controlId: "c_caption", label: "Caption from allowed claims", allowed: true, detail: "Caption text limited to grounded claims." },
+      { controlId: "c_recolor", label: "Recolor product", allowed: false, detail: "Blocked — would change product color/material." },
+      { controlId: "c_reshape", label: "Reshape / retouch product", allowed: false, detail: "Blocked — would change buyer expectations." },
+      { controlId: "c_bg_swap", label: "Background replacement", allowed: false, detail: "Routed to review — can imply false context." },
+    ],
+    provider: "genblaze",
+    providerPolicy:
+      "Genblaze video-enhance-1 · appearance lock on · unsupported claims and background swaps route to human review.",
+    providerReadiness: "mocked",
+    appearanceLocked: true,
+  },
+  {
+    templateId: "offer_callout_v2",
+    organizationId: DEMO_ORGANIZATION_ID,
+    name: "Offer Callout",
+    version: "v2",
+    status: "active",
+    category: "Offer callout",
+    description:
+      "Highlight a campaign offer with a lower-third overlay. Offer text must map to an active, allowed campaign claim or the step is blocked.",
+    stepGraphId: "stepgraph_offer_callout_v2",
+    steps: [
+      { stepId: "s1", label: "Ingest mezzanine", kind: "ingest", detail: "Decode raw mezzanine.", safe: true },
+      { stepId: "s2", label: "Reframe 9:16", kind: "reframe", detail: "Subject-aware reframe.", safe: true },
+      { stepId: "s3", label: "Offer lower-third", kind: "overlay", detail: "Overlay text bound to an allowed campaign claim.", safe: true },
+      { stepId: "s4", label: "Caption overlay", kind: "caption", detail: "Captions from allowed claims only.", safe: true },
+      { stepId: "s5", label: "Package variants", kind: "package", detail: "Emit publish variant + manifest.", safe: true },
+    ],
+    allowedControls: [
+      { controlId: "c_offer", label: "Offer lower-third", allowed: true, detail: "Bound to active campaign offer claim." },
+      { controlId: "c_caption", label: "Caption from allowed claims", allowed: true, detail: "Grounded claims only." },
+      { controlId: "c_price_freeform", label: "Free-form price / discount text", allowed: false, detail: "Blocked — prices must come from campaign claims." },
+    ],
+    provider: "genblaze",
+    providerPolicy:
+      "Genblaze video-enhance-1 · offer text must resolve to an active campaign claim; otherwise blocked.",
+    providerReadiness: "mocked",
+    appearanceLocked: true,
+  },
+  {
+    templateId: "lifestyle_scene_v1",
+    organizationId: DEMO_ORGANIZATION_ID,
+    name: "Lifestyle Scene",
+    version: "v1",
+    status: "provider-unavailable",
+    category: "Lifestyle",
+    description:
+      "Place the product into a styled lifestyle scene. Background generation is gated and currently unavailable while the scene provider is degraded.",
+    stepGraphId: "stepgraph_lifestyle_v1",
+    steps: [
+      { stepId: "s1", label: "Ingest mezzanine", kind: "ingest", detail: "Decode raw mezzanine.", safe: true },
+      { stepId: "s2", label: "Subject isolate", kind: "reframe", detail: "Isolate product subject.", safe: true },
+      { stepId: "s3", label: "Scene background", kind: "overlay", detail: "Generated background — routed to review.", safe: false },
+      { stepId: "s4", label: "Package variants", kind: "package", detail: "Emit publish variant + manifest.", safe: true },
+    ],
+    allowedControls: [
+      { controlId: "c_scene", label: "Generated scene background", allowed: false, detail: "Provider unavailable; review-gated when enabled." },
+      { controlId: "c_recolor", label: "Recolor product", allowed: false, detail: "Blocked — appearance lock." },
+    ],
+    provider: "genblaze-scene",
+    providerPolicy:
+      "Scene provider degraded · template disabled until provider readiness returns; appearance lock on.",
+    providerReadiness: "degraded",
+    appearanceLocked: true,
+  },
+  {
+    templateId: "raw_passthrough_v0",
+    organizationId: DEMO_ORGANIZATION_ID,
+    name: "Raw Passthrough (draft)",
+    version: "v0",
+    status: "draft",
+    category: "Utility",
+    description:
+      "Draft template that packages the mezzanine with no enhancement. Not yet published for use in sessions.",
+    stepGraphId: "stepgraph_raw_passthrough_v0",
+    steps: [
+      { stepId: "s1", label: "Ingest mezzanine", kind: "ingest", detail: "Decode raw mezzanine.", safe: true },
+      { stepId: "s2", label: "Package variant", kind: "package", detail: "Emit a single publish variant + manifest.", safe: true },
+    ],
+    allowedControls: [
+      { controlId: "c_caption", label: "Caption from allowed claims", allowed: true, detail: "Grounded claims only." },
+    ],
+    provider: "genblaze",
+    providerPolicy: "Draft — not selectable in sessions until published.",
+    providerReadiness: "mocked",
+    appearanceLocked: true,
+  },
+];
+
+/* ------------------------------------------------------------------ *
  * Lookups
  * ------------------------------------------------------------------ */
+
+export function getTemplate(templateId: string): MockTemplate | undefined {
+  return mockTemplates.find((t) => t.templateId === templateId);
+}
 
 export function getProduct(productId: string): MockProduct | undefined {
   return mockProducts.find((p) => p.productId === productId);

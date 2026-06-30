@@ -52,13 +52,13 @@
 
 **Independent Test**: Open `/`, `/demo`, and `/share/aster-crossbody-demo`; verify category, raw-to-published lineage, proof modules, UI-only disclosure, share states, product link, and provenance summary render without workspace shell.
 
-- [ ] T021 [P] [US1] Create marketing content modules for hero, proof path, workflow, and CTA in `apps/web/src/components/marketing/marketing-sections.tsx`
-- [ ] T022 [US1] Replace the default starter page with Lumiq landing content in `apps/web/src/app/page.tsx`
-- [ ] T023 [P] [US1] Create demo proof modules for B2, Genblaze, Mastra, product grounding, QA, and provenance in `apps/web/src/components/marketing/demo-story.tsx`
-- [ ] T024 [US1] Add judge-facing demo story route in `apps/web/src/app/demo/page.tsx`
-- [ ] T025 [P] [US1] Create share page components for public, private/access-denied, revoked, expired, and unavailable states in `apps/web/src/components/share/share-page.tsx`
-- [ ] T026 [US1] Add dynamic share route using seeded share states in `apps/web/src/app/share/[shareSlug]/page.tsx`
-- [ ] T027 [US1] Verify public responsive and reduced-motion states from `specs/001-ui-screens/quickstart.md`
+- [X] T021 [P] [US1] Create marketing content modules for hero, proof path, workflow, and CTA in `apps/web/src/components/marketing/marketing-sections.tsx`
+- [X] T022 [US1] Replace the default starter page with Lumiq landing content in `apps/web/src/app/page.tsx`
+- [X] T023 [P] [US1] Create demo proof modules for B2, Genblaze, Mastra, product grounding, QA, and provenance in `apps/web/src/components/marketing/demo-story.tsx`
+- [X] T024 [US1] Add judge-facing demo story route in `apps/web/src/app/demo/page.tsx`
+- [X] T025 [P] [US1] Create share page components for public, private/access-denied, revoked, expired, and unavailable states in `apps/web/src/components/share/share-page.tsx`
+- [X] T026 [US1] Add dynamic share route using seeded share states in `apps/web/src/app/share/[shareSlug]/page.tsx`
+- [X] T027 [US1] Verify public responsive and reduced-motion states from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US1 can be visually demoed independently as the MVP public proof path.
 
@@ -70,10 +70,10 @@
 
 **Independent Test**: Open `/setup`; verify organization, catalog, campaign, allowed claims, budget, provider/storage readiness, blocked reasons, and Start Demo Session are visible from mock state.
 
-- [ ] T028 [P] [US2] Create setup checklist, readiness summary, blocked-state, and seeded demo components in `apps/web/src/components/setup/setup-flow.tsx`
-- [ ] T029 [US2] Add setup route with empty organization and seeded demo variants in `apps/web/src/app/(workspace)/setup/page.tsx`
-- [ ] T030 [US2] Add setup navigation and Start Demo Session link behavior using route/local UI state in `apps/web/src/components/setup/setup-actions.tsx`
-- [ ] T031 [US2] Verify setup blocked states and mobile shell behavior from `specs/001-ui-screens/quickstart.md`
+- [X] T028 [P] [US2] Create setup checklist, readiness summary, blocked-state, and seeded demo components in `apps/web/src/components/setup/setup-flow.tsx`
+- [X] T029 [US2] Add setup route with empty organization and seeded demo variants in `apps/web/src/app/(workspace)/setup/page.tsx`
+- [X] T030 [US2] Add setup navigation and Start Demo Session link behavior using route/local UI state in `apps/web/src/components/setup/setup-actions.tsx`
+- [X] T031 [US2] Verify setup blocked states and mobile shell behavior from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US2 setup flow is independently reachable and blocks missing commerce context.
 
@@ -85,11 +85,11 @@
 
 **Independent Test**: Open `/studio`; verify preflight, source preview, signal feed, candidate cards, progress chain, budget blocked, duplicate suppressed, provider unavailable, failed, and review-ready states are visible without backend services.
 
-- [ ] T032 [P] [US3] Create Live Studio preflight panels for source, catalog snapshot, policy, budget, and provider/storage readiness in `apps/web/src/components/studio/studio-preflight.tsx`
-- [ ] T033 [P] [US3] Create Live Studio control room regions for preview, signal rail, product context, budget policy, and status controls in `apps/web/src/components/studio/studio-control-room.tsx`
-- [ ] T034 [P] [US3] Create candidate progress cards and bottom timeline with text equivalents in `apps/web/src/components/studio/studio-timeline.tsx`
-- [ ] T035 [US3] Add Live Studio route composing preflight, live, candidate, enhancing, blocked, and failed states in `apps/web/src/app/(workspace)/studio/page.tsx`
-- [ ] T036 [US3] Verify Live Studio responsive collapse at 375px and reduced-motion timeline behavior from `specs/001-ui-screens/quickstart.md`
+- [X] T032 [P] [US3] Create Live Studio preflight panels for source, catalog snapshot, policy, budget, and provider/storage readiness in `apps/web/src/components/studio/studio-preflight.tsx`
+- [X] T033 [P] [US3] Create Live Studio control room regions for preview, signal rail, product context, budget policy, and status controls in `apps/web/src/components/studio/studio-control-room.tsx`
+- [X] T034 [P] [US3] Create candidate progress cards and bottom timeline with text equivalents in `apps/web/src/components/studio/studio-timeline.tsx`
+- [X] T035 [US3] Add Live Studio route composing preflight, live, candidate, enhancing, blocked, and failed states in `apps/web/src/app/(workspace)/studio/page.tsx`
+- [X] T036 [US3] Verify Live Studio responsive collapse at 375px and reduced-motion timeline behavior from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US3 primary product screen is visually complete and testable from mock session data.
 
@@ -101,13 +101,13 @@
 
 **Independent Test**: Open `/review` and `/review/mom_aster_reveal`; verify queue views, detail tabs, desktop/mobile compare layouts, QA review-required behavior, provenance graph, versions, publish readiness, blocked facts, and share preview.
 
-- [ ] T037 [P] [US4] Create review queue filters, cards, and state variants in `apps/web/src/components/review/review-queue.tsx`
-- [ ] T038 [US4] Add Review Queue route with global, publish-ready, needs-review, and failed/remediable views in `apps/web/src/app/(workspace)/review/page.tsx`
-- [ ] T039 [P] [US4] Create moment detail tab shell and preview/evidence/facts/QA panels in `apps/web/src/components/review/moment-detail.tsx`
-- [ ] T040 [P] [US4] Create responsive compare component with desktop side-by-side and mobile segmented modes in `apps/web/src/components/review/compare-panel.tsx`
-- [ ] T041 [P] [US4] Create publish package panel with readiness checks, captions, destination variants, facts-changed blocked state, and share preview in `apps/web/src/components/review/publish-panel.tsx`
-- [ ] T042 [US4] Add Moment Detail route using seeded moment lookup in `apps/web/src/app/(workspace)/review/[momentId]/page.tsx`
-- [ ] T043 [US4] Verify review detail keyboard tab order, dialog/sheet titles, and provenance visibility from `specs/001-ui-screens/quickstart.md`
+- [X] T037 [P] [US4] Create review queue filters, cards, and state variants in `apps/web/src/components/review/review-queue.tsx`
+- [X] T038 [US4] Add Review Queue route with global, publish-ready, needs-review, and failed/remediable views in `apps/web/src/app/(workspace)/review/page.tsx`
+- [X] T039 [P] [US4] Create moment detail tab shell and preview/evidence/facts/QA panels in `apps/web/src/components/review/moment-detail.tsx`
+- [X] T040 [P] [US4] Create responsive compare component with desktop side-by-side and mobile segmented modes in `apps/web/src/components/review/compare-panel.tsx`
+- [X] T041 [P] [US4] Create publish package panel with readiness checks, captions, destination variants, facts-changed blocked state, and share preview in `apps/web/src/components/review/publish-panel.tsx`
+- [X] T042 [US4] Add Moment Detail route using seeded moment lookup in `apps/web/src/app/(workspace)/review/[momentId]/page.tsx`
+- [X] T043 [US4] Verify review detail keyboard tab order, dialog/sheet titles, and provenance visibility from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US4 completes the golden path from review decision through publish/share proof.
 
@@ -119,10 +119,10 @@
 
 **Independent Test**: Open `/vault`; switch views and filters; verify matching cards, compact lineage, full provenance links, and helpful empty results.
 
-- [ ] T044 [P] [US5] Create vault filter bar for session, product, campaign, moment type, status, QA, publish state, template, date, reviewer, score, and asset type in `apps/web/src/components/vault/vault-filters.tsx`
-- [ ] T045 [P] [US5] Create vault grid, timeline, product/campaign grouping, publish package, and search-result views in `apps/web/src/components/vault/vault-views.tsx`
-- [ ] T046 [US5] Add Vault route with seeded filter state and empty-result variant in `apps/web/src/app/(workspace)/vault/page.tsx`
-- [ ] T047 [US5] Verify Vault responsive filters, no-match state, and lineage access from `specs/001-ui-screens/quickstart.md`
+- [X] T044 [P] [US5] Create vault filter bar for session, product, campaign, moment type, status, QA, publish state, template, date, reviewer, score, and asset type in `apps/web/src/components/vault/vault-filters.tsx`
+- [X] T045 [P] [US5] Create vault grid, timeline, product/campaign grouping, publish package, and search-result views in `apps/web/src/components/vault/vault-views.tsx`
+- [X] T046 [US5] Add Vault route with seeded filter state and empty-result variant in `apps/web/src/app/(workspace)/vault/page.tsx`
+- [X] T047 [US5] Verify Vault responsive filters, no-match state, and lineage access from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US5 is independently usable as a searchable mock media library.
 
@@ -134,13 +134,13 @@
 
 **Independent Test**: Open `/catalog`, `/campaigns`, and `/templates`; verify complete, incomplete, expired, blocked, snapshot, step graph, and provider-unavailable states.
 
-- [ ] T048 [P] [US6] Create catalog table, product media cards, allowed claims, incomplete states, and snapshot history components in `apps/web/src/components/commerce/catalog-screen.tsx`
-- [ ] T049 [US6] Add Catalog route using seeded products and snapshots in `apps/web/src/app/(workspace)/catalog/page.tsx`
-- [ ] T050 [P] [US6] Create campaigns list/detail, active products, offer validity, allowed claims, expired state, and Start Session components in `apps/web/src/components/commerce/campaigns-screen.tsx`
-- [ ] T051 [US6] Add Campaigns route using seeded campaigns and offer states in `apps/web/src/app/(workspace)/campaigns/page.tsx`
-- [ ] T052 [P] [US6] Create template list/detail, typed safe step graph, allowed creative controls, version status, and provider policy components in `apps/web/src/components/commerce/templates-screen.tsx`
-- [ ] T053 [US6] Add Templates route using seeded template/provider states in `apps/web/src/app/(workspace)/templates/page.tsx`
-- [ ] T054 [US6] Verify commerce copy is grounded in allowed claims and blocked/review-required states from `specs/001-ui-screens/quickstart.md`
+- [X] T048 [P] [US6] Create catalog table, product media cards, allowed claims, incomplete states, and snapshot history components in `apps/web/src/components/commerce/catalog-screen.tsx`
+- [X] T049 [US6] Add Catalog route using seeded products and snapshots in `apps/web/src/app/(workspace)/catalog/page.tsx`
+- [X] T050 [P] [US6] Create campaigns list/detail, active products, offer validity, allowed claims, expired state, and Start Session components in `apps/web/src/components/commerce/campaigns-screen.tsx`
+- [X] T051 [US6] Add Campaigns route using seeded campaigns and offer states in `apps/web/src/app/(workspace)/campaigns/page.tsx`
+- [X] T052 [P] [US6] Create template list/detail, typed safe step graph, allowed creative controls, version status, and provider policy components in `apps/web/src/components/commerce/templates-screen.tsx`
+- [X] T053 [US6] Add Templates route using seeded template/provider states in `apps/web/src/app/(workspace)/templates/page.tsx`
+- [X] T054 [US6] Verify commerce copy is grounded in allowed claims and blocked/review-required states from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US6 proves product grounding and safe generation controls without backend integration.
 
@@ -152,10 +152,10 @@
 
 **Independent Test**: Open `/admin`; verify DLQ, stuck moments, failed runs, B2 reconciliation, provider failures, budget anomalies, audit search, retention queue, orphaned assets, expanded details, disabled actions, and viewer restrictions.
 
-- [ ] T055 [P] [US7] Create admin recovery section tabs and dense technical tables in `apps/web/src/components/admin/admin-recovery.tsx`
-- [ ] T056 [P] [US7] Create recovery detail drawers with event IDs, schema versions, organization IDs, producers, trace IDs, payload previews, B2 keys, checksums, and required-reason controls in `apps/web/src/components/admin/recovery-detail.tsx`
-- [ ] T057 [US7] Add Admin route with role-sensitive visibility and seeded recovery data in `apps/web/src/app/(workspace)/admin/page.tsx`
-- [ ] T058 [US7] Verify admin responsive table behavior, mono technical fields, and restricted role states from `specs/001-ui-screens/quickstart.md`
+- [X] T055 [P] [US7] Create admin recovery section tabs and dense technical tables in `apps/web/src/components/admin/admin-recovery.tsx`
+- [X] T056 [P] [US7] Create recovery detail drawers with event IDs, schema versions, organization IDs, producers, trace IDs, payload previews, B2 keys, checksums, and required-reason controls in `apps/web/src/components/admin/recovery-detail.tsx`
+- [X] T057 [US7] Add Admin route with role-sensitive visibility and seeded recovery data in `apps/web/src/app/(workspace)/admin/page.tsx`
+- [X] T058 [US7] Verify admin responsive table behavior, mono technical fields, and restricted role states from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US7 is independently testable as an operational recovery UI with no real actions.
 
@@ -167,10 +167,10 @@
 
 **Independent Test**: Open `/settings`; switch owner, admin, reviewer, and viewer role presets; verify restricted sections are hidden/disabled and destructive actions require an explicit reason.
 
-- [ ] T059 [P] [US8] Create settings sections for organization, members, roles, capabilities, budgets, automation, retention, providers, and billing in `apps/web/src/components/settings/settings-sections.tsx`
-- [ ] T060 [P] [US8] Create sensitive action confirmation and disabled-reason controls in `apps/web/src/components/settings/sensitive-actions.tsx`
-- [ ] T061 [US8] Add Settings route with role preset variants in `apps/web/src/app/(workspace)/settings/page.tsx`
-- [ ] T062 [US8] Verify settings capability-sensitive controls and confirmation states from `specs/001-ui-screens/quickstart.md`
+- [X] T059 [P] [US8] Create settings sections for organization, members, roles, capabilities, budgets, automation, retention, providers, and billing in `apps/web/src/components/settings/settings-sections.tsx`
+- [X] T060 [P] [US8] Create sensitive action confirmation and disabled-reason controls in `apps/web/src/components/settings/sensitive-actions.tsx`
+- [X] T061 [US8] Add Settings route with role preset variants in `apps/web/src/app/(workspace)/settings/page.tsx`
+- [X] T062 [US8] Verify settings capability-sensitive controls and confirmation states from `specs/001-ui-screens/quickstart.md`
 
 **Checkpoint**: US8 completes the workspace shell and ownership controls.
 
@@ -180,14 +180,14 @@
 
 **Purpose**: Final quality gates across all routes and screen groups.
 
-- [ ] T063 [P] Add analytics overview, operational metrics, media metrics, semantic charts, and empty state in `apps/web/src/app/(workspace)/analytics/page.tsx`
-- [ ] T064 Audit every route for no backend calls, no credentials, no durable mutations, and explicit seeded/demo-only labels in `apps/web/src/`
-- [ ] T065 Audit dark-only token usage, royal blue primary actions, no glow/blur/aura gradients, no gradient primary buttons, and mono technical metadata in `apps/web/src/app/globals.css`
-- [ ] T066 Run responsive visual QA at 375px, 768px, 1024px, and 1440px for all routes listed in `specs/001-ui-screens/quickstart.md`
-- [ ] T067 Run accessibility QA for icon labels, focus order, dialogs/sheets titles, non-color-only statuses, disabled reasons, timeline text equivalents, and reduced motion in `apps/web/src/`
-- [ ] T068 Run route walkthrough for Landing -> Demo story -> Setup -> Studio -> Review Queue -> Moment Detail -> Provenance -> Publish -> Share Page from `specs/001-ui-screens/quickstart.md`
-- [ ] T069 Run `pnpm --filter web lint` from repository root
-- [ ] T070 Run `pnpm --filter web build` from repository root
+- [X] T063 [P] Add analytics overview, operational metrics, media metrics, semantic charts, and empty state in `apps/web/src/app/(workspace)/analytics/page.tsx`
+- [X] T064 Audit every route for no backend calls, no credentials, no durable mutations, and explicit seeded/demo-only labels in `apps/web/src/`
+- [X] T065 Audit dark-only token usage, royal blue primary actions, no glow/blur/aura gradients, no gradient primary buttons, and mono technical metadata in `apps/web/src/app/globals.css`
+- [X] T066 Run responsive visual QA at 375px, 768px, 1024px, and 1440px for all routes listed in `specs/001-ui-screens/quickstart.md`
+- [X] T067 Run accessibility QA for icon labels, focus order, dialogs/sheets titles, non-color-only statuses, disabled reasons, timeline text equivalents, and reduced motion in `apps/web/src/`
+- [X] T068 Run route walkthrough for Landing -> Demo story -> Setup -> Studio -> Review Queue -> Moment Detail -> Provenance -> Publish -> Share Page from `specs/001-ui-screens/quickstart.md`
+- [X] T069 Run `pnpm --filter web lint` from repository root
+- [X] T070 Run `pnpm --filter web build` from repository root
 
 ---
 

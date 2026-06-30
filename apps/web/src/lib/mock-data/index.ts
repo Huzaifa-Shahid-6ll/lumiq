@@ -8,6 +8,7 @@
 export * from "@/lib/mock-data/organization";
 export * from "@/lib/mock-data/commerce";
 export * from "@/lib/mock-data/workflow";
+export * from "@/lib/mock-data/settings";
 
 import type {
   AssetRef,

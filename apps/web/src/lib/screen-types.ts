@@ -178,6 +178,59 @@ export interface MockCampaign {
   publishDestinations: string[];
 }
 
+/* ------------------------------------------------------------------ *
+ * Templates (safe typed step graphs + allowed creative controls)
+ * ------------------------------------------------------------------ */
+
+export type TemplateStatus = "active" | "draft" | "deprecated" | "provider-unavailable";
+
+export type TemplateStepKind =
+  | "ingest"
+  | "stabilize"
+  | "reframe"
+  | "color-grade"
+  | "audio"
+  | "caption"
+  | "overlay"
+  | "package";
+
+/** One typed node in a template's safe step graph. */
+export interface TemplateStep {
+  stepId: string;
+  label: string;
+  kind: TemplateStepKind;
+  detail: string;
+  /** Whether this step is guaranteed not to alter product appearance/claims. */
+  safe: boolean;
+}
+
+/** A creative control a template may or may not expose (appearance-affecting ones are locked). */
+export interface CreativeControl {
+  controlId: string;
+  label: string;
+  allowed: boolean;
+  detail: string;
+}
+
+export interface MockTemplate {
+  templateId: string;
+  organizationId: string;
+  name: string;
+  version: string;
+  status: TemplateStatus;
+  category: string;
+  description: string;
+  stepGraphId: string;
+  steps: TemplateStep[];
+  allowedControls: CreativeControl[];
+  provider: string;
+  /** Human-readable provider policy summary (model, appearance lock, review routing). */
+  providerPolicy: string;
+  providerReadiness: Readiness;
+  /** Template guarantees product color/material/shape are never altered. */
+  appearanceLocked: boolean;
+}
+
 export type CatalogSnapshotStatus = "ready" | "missing" | "failed" | "stale";
 
 export interface CatalogSnapshot {
@@ -507,9 +560,21 @@ export interface SharePageState {
 
 export type AdminRecoveryStatus = "open" | "retrying" | "recovered" | "terminal" | "skipped";
 
+/** Section a recovery item belongs to — drives the Admin tab grouping. */
+export type AdminRecoverySection =
+  | "dlq"
+  | "stuck-moment"
+  | "failed-run"
+  | "b2-reconciliation"
+  | "provider-failure"
+  | "budget-anomaly"
+  | "audit"
+  | "retention"
+  | "orphaned-asset";
+
 export interface AdminRecoveryItem {
   itemId: string;
-  type: string;
+  type: AdminRecoverySection;
   resourceType: string;
   resourceId: string;
   status: AdminRecoveryStatus;
@@ -526,6 +591,14 @@ export interface AdminRecoveryItem {
   payloadPreview: string;
   relatedLinks: string[];
   eligibleActions: string[];
+  /** Tenant-scoped B2 object key, where the item references stored media/proof. */
+  b2ObjectKey?: string;
+  /** SHA-256 checksum, where the item references a canonical object. */
+  sha256?: string;
+  /** Whether eligible actions require an explicit operator reason (sensitive recovery). */
+  requiresReason?: boolean;
+  /** Audit actor (for audit-event rows). */
+  actor?: string;
 }
 
 export interface MetricSeriesPoint {
@@ -542,4 +615,120 @@ export interface AnalyticsMetric {
   timeframe: string;
   status: Severity;
   series?: MetricSeriesPoint[];
+}
+
+/* ------------------------------------------------------------------ *
+ * Settings (US8) — organization, members, roles, budgets, automation,
+ * retention, providers, billing, and sensitive-action confirmation.
+ * ------------------------------------------------------------------ */
+
+export type MemberStatus = "active" | "invited" | "suspended";
+
+export interface MockMember {
+  memberId: string;
+  organizationId: string;
+  displayName: string;
+  email: string;
+  role: RolePreset;
+  status: MemberStatus;
+  /** ISO timestamp the membership was created. */
+  addedAt: string;
+  /** ISO timestamp of last activity, if any. */
+  lastActiveAt?: string;
+}
+
+/** A labelled bucket of capability strings (drives the capabilities section). */
+export interface CapabilityGroup {
+  groupId: string;
+  label: string;
+  description: string;
+  /** Capability strings from the CAPABILITIES vocabulary. */
+  capabilities: string[];
+}
+
+export type BudgetScope = "organization" | "session" | "campaign";
+export type BudgetEnforce = "block" | "warn";
+
+export interface BudgetPolicy {
+  budgetId: string;
+  scope: BudgetScope;
+  period: "daily" | "monthly";
+  limitUsd: number;
+  spentUsd: number;
+  status: Severity;
+  /** Soft-cap threshold as a percent of the limit (0..100). */
+  softCapPct: number;
+  /** Hard-cap threshold as a percent of the limit (0..100). */
+  hardCapPct: number;
+  enforce: BudgetEnforce;
+  detail: string;
+}
+
+export type AutomationRestyleRouting = "block" | "review" | "allow-with-review";
+export type AutomationClaimRouting = "block" | "review";
+
+export interface AutomationPolicy {
+  policyId: string;
+  label: string;
+  description: string;
+  /** Auto-capture confidence threshold (0..1). */
+  confidenceThreshold: number;
+  autoApproveHighConfidence: boolean;
+  routeAppearanceRestyleTo: AutomationRestyleRouting;
+  routeClaimRiskTo: AutomationClaimRouting;
+  detail: string;
+}
+
+export type RetentionAction = "archive" | "delete" | "tier-down";
+
+export interface RetentionPolicy {
+  policyId: string;
+  /** Human-readable asset role label (e.g. "raw_source"). */
+  assetRole: string;
+  retentionDays: number;
+  action: RetentionAction;
+  legalHold: boolean;
+  status: Severity;
+  detail: string;
+}
+
+export type ProviderCategory = "generation" | "storage" | "llm" | "publish";
+
+export interface ProviderConfig {
+  providerId: string;
+  name: string;
+  category: ProviderCategory;
+  status: Readiness;
+  connected: boolean;
+  capabilitiesSummary: string;
+  /** ISO timestamp of the last health check. */
+  lastHealthCheck: string;
+  /** Masked mock key reference, e.g. "lum_sk••••3f2a". */
+  apiKeyRef: string;
+  detail: string;
+}
+
+export interface BillingSummary {
+  plan: OrganizationPlan;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  spendUsd: number;
+  limitUsd: number;
+  status: Severity;
+  /** Invoice references (mono). */
+  invoiceRefs: string[];
+  paymentMethodLabel: string;
+}
+
+export interface SensitiveAction {
+  actionId: string;
+  label: string;
+  description: string;
+  severity: Severity;
+  /** Capability string required to perform the action. */
+  requiredCapability: string;
+  /** Whether an explicit operator reason is required before confirmation. */
+  requiresReason: boolean;
+  /** Whether the action is destructive / irreversible. */
+  destructive: boolean;
 }

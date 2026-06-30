@@ -14,3 +14,12 @@ __pycache__
 apps/web/.next
 apps/web/.turbo
 apps/api/.turbo
+
+# Logs
+*.log
+
+# Build output
+build/
+
+# Editor directories
+.idea/
